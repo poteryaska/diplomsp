@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'users',
-    'rest_framework_simplejwt',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -81,11 +81,10 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('NAME'),
-        'USER': 'postgres',
-        'PASSWORD': os.getenv('PASSWORD'),
-        # 'HOST': 'db',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.getenv('BASE_NAME'),
+        'USER': os.getenv('BASE_USER'),# Пользователь для подключения
+        'PASSWORD': os.getenv('BASE_PASSWORD'),# Пароль для этого пользователя
 
     }
 }
