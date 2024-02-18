@@ -41,8 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'users',
+    'drf_yasg',
     'rest_framework',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -85,6 +86,7 @@ DATABASES = {
         'NAME': os.getenv('BASE_NAME'),
         'USER': os.getenv('BASE_USER'),# Пользователь для подключения
         'PASSWORD': os.getenv('BASE_PASSWORD'),# Пароль для этого пользователя
+        'HOST': os.getenv('HOST'),
 
     }
 }

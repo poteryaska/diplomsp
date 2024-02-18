@@ -1,0 +1,38 @@
+version: '4'
+
+services:
+
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12345678
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_DB=users
+      - ALLOWED_HOSTS=["localhost", "0.0.0.0", "127.0.0.1", "django"]
+    volumes:
+      - pg_data:/var/lib/postgresql/data/pgdata
+    ports:
+      - '5432:5432'
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+
+  app:
+    build: .
+    tty: true
+    command: sh -c "sleep 3 && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/code
+    ports:
+      - '8000:8000'
+    depends_on:
+      db:
+        condition: service_healthy
+
+
+volumes:
+  pg_data:
