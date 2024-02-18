@@ -68,7 +68,7 @@ class UserAuthorizationAPIView(APIView):
             user.is_active = True
             user.save()
             time.sleep(2)
-            return Response({'detail': 'Авторизация успешна'}, status=status.HTTP_200_OK)
+            return Response({'detail': 'Авторизация успешно завершена!'}, status=status.HTTP_200_OK)
 
         else:
             return Response({'detail': 'Неверный код'}, status=status.HTTP_400_BAD_REQUEST)
@@ -76,12 +76,16 @@ class UserAuthorizationAPIView(APIView):
 
 class UserProfileAPIView(APIView):
     """
-    Get запрос на получение профиля пользователя
+    Get запрос на получение профиля пользователя, со списком пользователей,
+    которые ввели инвайт код текущего пользователя.
     """
     def get(self, request, username):
         user = get_object_or_404(User, username=username)
         serializer = UserSerializer(user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        referral_code = user.referral_code
+        users = User.objects.filter(else_referral_code=referral_code).values('username', 'phone')
+        users_list = list(users)
+        return Response([serializer.data, users_list], status=status.HTTP_200_OK)
 
 
 class UserEnterCodeAPIView(APIView):
@@ -109,20 +113,3 @@ class UserEnterCodeAPIView(APIView):
             user.save()
             return Response({'detail': 'Инвайт код успешно активирован'}, status=status.HTTP_400_BAD_REQUEST)
 
-
-class UserListCodesAPIView(APIView):
-    """
-    Get запрос на получение списка пользователей, которые ввели один и тот же инвайт код.
-    (возвращается список номеров телефонов)
-    """
-    def get(self, request):
-        referral_code = request.data.get('referral_code')
-
-        if not referral_code:
-            return Response({'detail': 'Введите referral_code'}, status=status.HTTP_400_BAD_REQUEST)
-
-        users = User.objects.filter(else_referral_code=referral_code).values('phone')
-
-        users_list = list(users)
-
-        return Response(users_list, status=status.HTTP_200_OK)

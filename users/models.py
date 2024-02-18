@@ -8,7 +8,7 @@ NULLABLE = {'blank': True, 'null': True}
 
 class User(AbstractUser):
     username = models.CharField(max_length=40, verbose_name='имя пользователя', unique=True)
-    password = models.CharField(max_length=20, verbose_name='пароль')
+    password = models.CharField(max_length=150, verbose_name='пароль')
     phone = models.CharField(max_length=12, verbose_name='телефон', unique=True)
     referral_code = models.CharField(max_length=6, null=True, default=None, verbose_name='инвайт-код')
     else_referral_code = models.CharField(
@@ -19,7 +19,6 @@ class User(AbstractUser):
     activated = models.BooleanField(default=False)  # для проверки введен ли else_referral_code
     code = models.CharField(max_length=4, blank=True)
 
-    # Заполнениe поля code
     def save(self, *args, **kwargs):
         self.code = create_digit_code()
         super().save(*args, **kwargs)
