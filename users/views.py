@@ -2,15 +2,16 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from users.models import User
-from users.serializers import UserSerializer
+from users.serializers import UserSerializer, UserAuthorizationSerializer, UserEnterCodeSerializer, \
+    UserProfileSerializer
 from users.utils import create_invite_code
 import time
-from rest_framework import status
+from rest_framework import status, generics
 
 from django.shortcuts import get_object_or_404
 
 
-class UserRegistrationView(APIView):
+class UserRegistrationView(generics.CreateAPIView):
     """
     Post запрос на регистрацию пользователя по заданный полям. Проверяем на ввод заданных полей.
     Создаем пользователя с указанными данными, если у него нет значения поля referral_code, то присваиваем ему
@@ -18,6 +19,9 @@ class UserRegistrationView(APIView):
     Проверяем на пустоту поле else_referral_code, если оно заполнено, то полю activated присваиваем True,
     в дефолтном значении False, возвращаем данные в ответе.
     """
+
+    serializer_class = UserSerializer
+
     def post(self, request):
         username = request.data.get('username')
         phone = request.data.get('phone')
@@ -46,12 +50,13 @@ class UserRegistrationView(APIView):
              'else_referral_code': else_referral_code})
 
 
-class UserAuthorizationAPIView(APIView):
+class UserAuthorizationAPIView(generics.CreateAPIView):
     """
     Post запрос для авторизации по 4-значному коду. Задаем поля username (для поиска нужного пользователя)
     и code (код смотрим в БД). Проверяем на ввод этих полей.
     Если код верный, то авторизируем пользователя, иначе выводим ошибку.
     """
+    serializer_class = UserAuthorizationSerializer
     def post(self, request):
         username = request.data.get('username')
         code = request.data.get('code')
@@ -74,11 +79,13 @@ class UserAuthorizationAPIView(APIView):
             return Response({'detail': 'Неверный код'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class UserProfileAPIView(APIView):
+class UserProfileAPIView(generics.RetrieveAPIView):
     """
     Get запрос на получение профиля пользователя, со списком пользователей,
     которые ввели инвайт код текущего пользователя.
     """
+    queryset = User.objects.all()
+    serializer_class = UserProfileSerializer
     def get(self, request, username):
         user = get_object_or_404(User, username=username)
         serializer = UserSerializer(user)
@@ -88,12 +95,13 @@ class UserProfileAPIView(APIView):
         return Response([serializer.data, users_list], status=status.HTTP_200_OK)
 
 
-class UserEnterCodeAPIView(APIView):
+class UserEnterCodeAPIView(generics.CreateAPIView):
     """
     Post запрос для ввода чужого инвайт кода, если он был введен при регистрации, то
     обрабатываем ошибку присваивания, если при регистрации он не был введен,
     то присваиваем введенный пользователем инвайт код и присваиваем полю activated значение True.
     """
+    serializer_class = UserEnterCodeSerializer
     def post(self, request):
         else_referral_code = request.data.get('else_referral_code')
         username = request.data.get('username')
