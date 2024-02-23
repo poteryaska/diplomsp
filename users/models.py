@@ -7,7 +7,7 @@ NULLABLE = {'blank': True, 'null': True}
 
 
 class User(AbstractUser):
-    username = models.CharField(max_length=40, verbose_name='имя пользователя', unique=True)
+    username = models.CharField(max_length=40, verbose_name='имя пользователя', unique=True, **NULLABLE)
     password = models.CharField(max_length=150, verbose_name='пароль')
     phone = models.CharField(max_length=12, verbose_name='телефон', unique=True)
     referral_code = models.CharField(max_length=6, null=True, default=None, verbose_name='инвайт-код')

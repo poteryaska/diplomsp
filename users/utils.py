@@ -1,6 +1,7 @@
 import string
 from django.utils.crypto import get_random_string
 
+from rest_framework_simplejwt.tokens import RefreshToken
 
 def create_digit_code() -> str:
     """
@@ -15,3 +16,13 @@ def create_invite_code() -> str:
     """
 
     return get_random_string(length=6, allowed_chars=string.ascii_lowercase + string.digits)
+
+def get_tokens_for_user(user) -> dict:
+    refresh = RefreshToken.for_user(user)
+
+    return {
+        'refresh': str(refresh),
+        'access': str(refresh.access_token),
+    }
+
+

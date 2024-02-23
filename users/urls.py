@@ -1,7 +1,8 @@
 from django.urls import path
 
 from users.apps import UsersConfig
-from .views import UserRegistrationView, UserAuthorizationAPIView, UserProfileAPIView, UserEnterCodeAPIView
+from .views import UserRegistrationView, UserAuthorizationAPIView, UserProfileAPIView
+from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView,)
 
 app_name = UsersConfig.name
 
@@ -11,8 +12,9 @@ urlpatterns = [
     # Авторизация пользователя
     path('authorization/', UserAuthorizationAPIView.as_view(), name='code_authorization'),
     # Профиль пользователя
-    path('user/<str:username>/', UserProfileAPIView.as_view(), name='user-profile'),
-    # Ввод чужого инвайт-кода в профиле
-    path('enter-code/', UserEnterCodeAPIView.as_view(), name='enter-rcode'),
+    path('user/<int:pk>/', UserProfileAPIView.as_view(), name='user-profile'),
+
+    path('token/', TokenObtainPairView.as_view(), name="take_token"),
+    path('token/refresh/', TokenRefreshView.as_view(), name="refresh_token"),
 
 ]
