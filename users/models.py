@@ -17,11 +17,8 @@ class User(AbstractUser):
         **NULLABLE,
     )
     activated = models.BooleanField(default=False)  # для проверки введен ли else_referral_code
-    code = models.CharField(max_length=4, blank=True)
+    code = models.CharField(max_length=4, **NULLABLE)
 
-    def save(self, *args, **kwargs):
-        self.code = create_digit_code()
-        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Пользователь'

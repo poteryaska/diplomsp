@@ -12,7 +12,7 @@ urlpatterns = [
     # Авторизация пользователя
     path('authorization/', UserAuthorizationAPIView.as_view(), name='code_authorization'),
     # Профиль пользователя
-    path('user/<int:pk>/', UserProfileAPIView.as_view(), name='user-profile'),
+    path('profile/', UserProfileAPIView.as_view(), name='user-profile'),
 
     path('token/', TokenObtainPairView.as_view(), name="take_token"),
     path('token/refresh/', TokenRefreshView.as_view(), name="refresh_token"),
