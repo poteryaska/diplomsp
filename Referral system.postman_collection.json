@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \n    \"phone\": \"+79213984071\"\n\n  \n}",
+					"raw": "{\n    \n    \"phone\": \"+79213984092\"\n\n  \n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -45,7 +45,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"phone\": \"+79213984071\",\n    \"code\": \"2056\"\n}",
+					"raw": "{\n\n    \"code\": \"5388\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -72,11 +72,29 @@
 		},
 		{
 			"name": "user-profile",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4ODY3NDEyLCJpYXQiOjE3MDg4NjM5OTIsImp0aSI6IjVmNDNlNzgwYzkxYzRmNmY5ZWFkNzJkMGRhZDYxZWE5IiwidXNlcl9pZCI6NDF9.Pdh7qElZLhmBe0ysRZoiQnLKmpGFY7NX0dCGUnBaHT0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"else_referral_code\": \"sgua4u\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/user/Evgen/",
+					"raw": "http://127.0.0.1:8000/profile/",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -86,8 +104,7 @@
 					],
 					"port": "8000",
 					"path": [
-						"user",
-						"Evgen",
+						"profile",
 						""
 					]
 				}
@@ -101,7 +118,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NzI4MDA0LCJpYXQiOjE3MDg3MjQ1ODQsImp0aSI6ImQwYmFjOTg5OTkwYzQ3MjI5ZDNiZTM2OGJmOGZlMmViIiwidXNlcl9pZCI6Mzd9.vKRjjMixoYfMXyWTqpgDO9ZsVJhb9gBt5kwDmqSxud0",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4ODY4NTExLCJpYXQiOjE3MDg4NjUwOTEsImp0aSI6ImI5Mjk4MDQzNDFhMDRlODY4YmQwNzFlYmE5ZWEyMmY0IiwidXNlcl9pZCI6NDJ9.6okr6kq_WLR7iAq9z-JgSEzNKsaFJhDHhuzVPQ7ZAX4",
 						"type": "text"
 					}
 				],
@@ -115,7 +132,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/user/37/",
+					"raw": "http://127.0.0.1:8000/profile/",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -125,8 +142,7 @@
 					],
 					"port": "8000",
 					"path": [
-						"user",
-						"37",
+						"profile",
 						""
 					]
 				}
