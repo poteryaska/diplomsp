@@ -4,12 +4,8 @@ services:
 
   db:
     image: postgres
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=12345678
-      - PGDATA=/var/lib/postgresql/data/pgdata
-      - POSTGRES_DB=users
-      - ALLOWED_HOSTS=["localhost", "0.0.0.0", "127.0.0.1", "django"]
+    env_file:
+      - .env
     volumes:
       - pg_data:/var/lib/postgresql/data/pgdata
     ports:
